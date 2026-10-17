@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Campus Lost &amp; Found</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eaf4ff;--card:#fff;--text:#14213d;--muted:#5b6785;--line:#d5e3f5;--soft:#f3f8ff;--lost:#e5484d;--found:#0b8f6a;--pri:#2b50e0;--sun:#ffc933;--onpri:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1426;--card:#16213b;--text:#eaf0ff;--muted:#9fb0d4;--line:#2a3a60;--soft:#1c2a4a;--lost:#ff7a7e;--found:#3fd6a5;--pri:#8aa2ff;--onpri:#0c1426}}
+:root[data-theme="dark"]{--bg:#0c1426;--card:#16213b;--text:#eaf0ff;--muted:#9fb0d4;--line:#2a3a60;--soft:#1c2a4a;--lost:#ff7a7e;--found:#3fd6a5;--pri:#8aa2ff;--onpri:#0c1426}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 "Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:1020px;margin:0 auto;padding:16px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.logo{font-weight:800;font-size:1.1rem}
+button,input,select,textarea{font:inherit;color:inherit}
+.theme{background:var(--card);border:2px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+.hero{display:grid;grid-template-columns:1.4fr 1fr;gap:20px;align-items:center;margin:18px 0}
+.hero h1{font-size:clamp(2rem,6vw,3.4rem);line-height:1.05;margin:0 0 10px;font-weight:800}
+.hero p{margin:0 0 16px;color:var(--muted);max-width:46ch}
+.cta{display:flex;flex-wrap:wrap;gap:10px}
+.btn{border:0;border-radius:12px;padding:11px 18px;font-weight:700;cursor:pointer;background:var(--pri);color:var(--onpri);transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.red{background:var(--lost);color:#fff}.btn.green{background:var(--found);color:#fff}
+.btn.ghost{background:var(--soft);color:var(--text);border:2px dashed var(--line);display:inline-block}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.tagbig{background:var(--sun);color:#14213d;border-radius:18px 18px 18px 18px;padding:34px 20px 20px;position:relative;transform:rotate(3deg);box-shadow:0 8px 0 rgba(20,33,61,.15)}
+.tagbig::before{content:"";position:absolute;top:12px;left:50%;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:var(--bg);border:3px solid #14213d}
+.tagbig b{display:block;font-size:.8rem}
+.stats{display:flex;gap:14px;margin-top:6px}.stats div{flex:1;text-align:center}.stats strong{display:block;font-size:2rem;line-height:1}
+nav{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px}
+nav button{white-space:nowrap;border:2px solid var(--line);background:var(--card);border-radius:999px;padding:8px 16px;font-weight:700;cursor:pointer}
+nav button[aria-selected="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+.card{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:18px}
+.card h2{margin:0 0 4px}
+fieldset{border:2px solid var(--line);border-radius:14px;margin:14px 0;padding:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+legend{font-weight:800;padding:0 8px}
+label{display:flex;flex-direction:column;gap:3px;font-size:.9rem;font-weight:600}
+label.full{grid-column:1/-1}
+input,select,textarea{background:var(--soft);border:2px solid var(--line);border-radius:10px;padding:9px 10px;width:100%}
+.photo{grid-column:1/-1;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.photo img{height:90px;width:90px;object-fit:cover;border-radius:12px;border:2px solid var(--line)}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.bar input{flex:1;min-width:180px}
+.chip{border:2px solid var(--line);background:var(--card);border-radius:999px;padding:6px 14px;cursor:pointer;font-weight:700}
+.chip[aria-pressed="true"]{background:var(--pri);color:var(--onpri);border-color:var(--pri)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:18px}
+.item{background:var(--card);border:2px solid var(--line);border-top:8px solid var(--c);border-radius:18px;padding:26px 14px 14px;position:relative;margin-top:6px}
+.item::before{content:"";position:absolute;top:-4px;left:50%;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--bg);border:3px solid var(--c)}
+.item.lost{--c:var(--lost)}.item.found{--c:var(--found)}.item.done{--c:var(--muted);opacity:.75}
+.ph{height:150px;border-radius:12px;background:var(--soft);display:grid;place-items:center;font-size:3.4rem;overflow:hidden;margin-bottom:10px}
+.ph img{width:100%;height:100%;object-fit:cover}
+.badge{display:inline-block;color:#fff;background:var(--c);border-radius:8px;padding:1px 10px;font-weight:800;font-size:.8rem}
+.item h3{margin:6px 0 8px;font-size:1.25rem}
+.blk{background:var(--soft);border-radius:12px;padding:10px 12px;margin:10px 0;font-size:1.05rem}
+.blk b{display:block;margin-bottom:4px;font-size:1.15rem}.blk p{margin:2px 0}
+.blk.keep{border-left:5px solid var(--found)}
+.hint{font-size:.85rem;color:var(--muted);margin:6px 0}
+.empty{text-align:center;color:var(--muted);padding:30px;grid-column:1/-1}
+.cust{display:flex;flex-direction:column;gap:6px}
+.role{display:inline-block;background:var(--sun);color:#14213d;border-radius:8px;padding:0 10px;font-weight:800;font-size:.8rem}
+.x{background:none;border:0;color:var(--muted);cursor:pointer;text-decoration:underline;align-self:flex-start;padding:0}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--text);color:var(--bg);padding:10px 18px;border-radius:12px;opacity:0;pointer-events:none;transition:.25s;font-weight:700;z-index:9}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+@media (max-width:700px){.hero{grid-template-columns:1fr}.tagbig{transform:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><span class="logo">🔎 Campus Lost &amp; Found</span><button class="theme" id="theme" aria-label="Switch light or dark theme">🌗 Theme</button></div>
+
+  <section class="hero">
+    <div>
+      <h1>Lost it? Found it? Let's get it home.</h1>
+      <p>Post a photo, say where it was lost or found, and see exactly which faculty member or peon is keeping it safe.</p>
+      <div class="cta">
+        <button class="btn red" data-go="lost">😟 I lost something</button>
+        <button class="btn green" data-go="found">🙌 I found something</button>
+        <button class="btn ghost" data-go="browse">Browse all items</button>
+      </div>
+    </div>
+    <div class="tagbig"><b>Right now on campus</b>
+      <div class="stats"><div><strong id="sL">0</strong>lost</div><div><strong id="sF">0</strong>found</div><div><strong id="sR">0</strong>returned</div></div>
+    </div>
+  </section>
+
+  <nav role="tablist" aria-label="Sections">
+    <button role="tab" data-t="browse" aria-selected="true">📋 All items</button>
+    <button role="tab" data-t="lost" aria-selected="false">😟 Report lost</button>
+    <button role="tab" data-t="found" aria-selected="false">🙌 Report found</button>
+    <button role="tab" data-t="cust" aria-selected="false">🗝️ Where to collect</button>
+  </nav>
+
+  <section id="browse" class="pane">
+    <div class="bar">
+      <input id="q" type="search" placeholder="Search by item, place or person" aria-label="Search items">
+      <button class="chip" data-f="all" aria-pressed="true">All</button>
+      <button class="chip" data-f="lost" aria-pressed="false">Lost</button>
+      <button class="chip" data-f="found" aria-pressed="false">Found</button>
+      <button class="chip" data-f="done" aria-pressed="false">Returned</button>
+    </div>
+    <div class="grid" id="list"></div>
+  </section>
+
+  <section id="lost" class="pane" hidden></section>
+  <section id="found" class="pane" hidden></section>
+
+  <section id="cust" class="pane" hidden>
+    <div class="card"><h2>🗝️ Where to collect found items</h2>
+      <p class="hint">These are sample names. Remove them and add your real faculty members and peons below.</p>
+      <div class="grid" id="custList" style="margin-top:14px"></div>
+    </div>
+    <form id="f-cust" class="card" style="margin-top:16px"><h2>➕ Add a person</h2>
+      <fieldset><legend>Who keeps items?</legend>
+        <label>Name<input name="name" required placeholder="e.g. Prof. S. Kulkarni"></label>
+        <label>Role<select name="role"><option>Faculty</option><option>Peon</option></select></label>
+        <label class="full">Where to find them<input name="where" required placeholder="e.g. Staff room, 2nd floor"></label>
+      </fieldset>
+      <button class="btn">Add person</button>
+    </form>
+  </section>
+</div>
+<div id="toast" role="status"></div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ICON={"Bags":"🎒","Electronics":"📱","ID / Cards":"🪪","Books":"📚","Keys":"🔑","Bottles & Lunch":"🥤","Clothing":"🧥","Other":"📦"};
+const load=(k,d)=>{try{const v=JSON.parse(localStorage.getItem(k));return v||d}catch(e){return d}};
+const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){toast("Saved for this visit only (storage is full)")}};
+const today=new Date().toISOString().slice(0,10);
+let cust=load("lf-cust",[
+ {id:"c1",name:"Prof. R. Sharma",role:"Faculty",where:"Computer Dept office, 3rd floor"},
+ {id:"c2",name:"Mr. Ramesh",role:"Peon",where:"Library counter"},
+ {id:"c3",name:"Mr. Ganesh",role:"Peon",where:"Main gate security desk"}]);
+let items=load("lf-items",[
+ {id:3,type:"found",name:"Scientific calculator",cat:"Electronics",place:"Lab CL-5",desc:"Black, name scratched on the back",who:"Karan Shah",contact:"karan@example.com",date:today,time:"14:10",cust:"c1"},
+ {id:2,type:"lost",name:"Blue backpack",cat:"Bags",place:"Library reading hall",desc:"Has a keychain shaped like a star",who:"Riya Patil",contact:"98765 43210",date:today,time:"11:30"},
+ {id:1,type:"found",name:"Student ID card",cat:"ID / Cards",place:"Canteen",desc:"First-year engineering card",who:"Imran Khan",contact:"imran@example.com",date:today,time:"13:05",cust:"c2"}]);
+let filt="all",q="",photos={};
+const putItems=()=>save("lf-items",items), putCust=()=>save("lf-cust",cust);
+let tt;function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("on"),2600)}
+
+function formHTML(t){const L=t==="lost";return `<form id="f-${t}" class="card"><h2>${L?"😟 I lost something":"🙌 I found something"}</h2>
+<p class="hint">${L?"Tell us what it looks like and where you last had it.":"Thank you! Add a photo and say who is keeping it."}</p>
+<fieldset><legend>📦 Item details</legend>
+<label>Item name<input name="name" required placeholder="e.g. Blue water bottle"></label>
+<label>Category<select name="cat">${Object.keys(ICON).map(c=>`<option>${c}</option>`).join("")}</select></label>
+<label class="full">${L?"Lost from (place)":"Found at (place)"}<input name="place" required placeholder="e.g. Library, Lab CL-6, Canteen, Ground"></label>
+<label class="full">Description<textarea name="desc" rows="2" placeholder="Colour, brand, marks, what's inside"></textarea></label>
+<div class="photo"><label class="btn ghost">📷 Add a photo<input type="file" accept="image/*" name="photo" hidden></label><img alt="Preview of the chosen photo" hidden></div>
+</fieldset>
+<fieldset><legend>🧑 Person details</legend>
+<label>${L?"Owner's name":"Finder's name"}<input name="who" required></label>
+<label>Phone or email<input name="contact" required></label>
+<label>${L?"Date lost":"Date found"}<input type="date" name="date" required value="${today}"></label>
+<label>${L?"Time lost":"Time found"}<input type="time" name="time" required></label>
+</fieldset>
+${L?"":`<fieldset><legend>🗝️ Handed over to</legend><label class="full">Kept with<select name="cust" required></select></label></fieldset>`}
+<button class="btn ${L?"red":"green"}">${L?"Post lost item":"Post found item"}</button></form>`}
+$("#lost").innerHTML=formHTML("lost");$("#found").innerHTML=formHTML("found");
+
+function fillCust(){const s=$("#f-found [name=cust]");s.innerHTML=cust.length?cust.map(c=>`<option value="${c.id}">${esc(c.name)} (${c.role}) - ${esc(c.where)}</option>`).join(""):'<option value="">Add a person in "Where to collect" first</option>'}
+function nowTime(){const d=new Date();return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")}
+function resetForm(t){const f=$("#f-"+t);f.reset();f.date.value=today;f.time.value=nowTime();const im=f.querySelector(".photo img");im.hidden=true;photos[t]=null}
+
+function render(){
+ $("#sL").textContent=items.filter(i=>i.type==="lost"&&!i.done).length;
+ $("#sF").textContent=items.filter(i=>i.type==="found"&&!i.done).length;
+ $("#sR").textContent=items.filter(i=>i.done).length;
+ const k=q.toLowerCase();
+ const list=items.filter(i=>(filt==="all"?!i.done:filt==="done"?i.done:i.type===filt&&!i.done)&&(!k||[i.name,i.place,i.who,i.desc,i.cat].join(" ").toLowerCase().includes(k))).sort((a,b)=>b.id-a.id);
+ $("#list").innerHTML=list.length?list.map(card).join(""):'<div class="empty">😌 Nothing here yet. Report an item and it will show up on this board.</div>';
+ $("#custList").innerHTML=cust.length?cust.map(c=>{const held=items.filter(i=>i.cust===c.id&&!i.done);return `<div class="item found cust"><span class="role">${c.role}</span><h3 style="margin:2px 0">${esc(c.name)}</h3><div>📍 ${esc(c.where)}</div><div class="hint">${held.length?"Holding: "+held.map(h=>esc(h.name)).join(", "):"Not holding any items right now"}</div><button class="x" data-del="${c.id}">Remove</button></div>`}).join(""):'<div class="empty">No one added yet. Use the form below.</div>';
+}
+function card(i){
+ const L=i.type==="lost",c=cust.find(x=>x.id===i.cust);
+ const same=L&&!i.done?items.filter(f=>f.type==="found"&&!f.done&&f.cat===i.cat).length:0;
+ return `<article class="item ${i.done?"done":i.type}">
+ <div class="ph">${i.photo?`<img src="${i.photo}" alt="${esc(i.name)}">`:ICON[i.cat]||"📦"}</div>
+ <span class="badge">${i.done?"RETURNED":L?"LOST":"FOUND"}</span>
+ <h3>${esc(i.name)}</h3>
+ <div class="blk"><b>📦 Item details</b><p>🏷️ ${esc(i.cat)}</p><p>📍 ${L?"Lost from":"Found at"}: ${esc(i.place)}</p>${i.desc?`<p>📝 ${esc(i.desc)}</p>`:""}</div>
+ <div class="blk"><b>🧑 Person details</b><p>${L?"Owner":"Finder"}: ${esc(i.who)}</p><p>📞 ${esc(i.contact)}</p><p>🕒 ${L?"Lost":"Found"} on ${esc(i.date)} at ${esc(i.time)}</p></div>
+ ${!L?`<div class="blk keep"><b>🗝️ Kept with</b>${c?`<p>${esc(c.name)} (${c.role})</p><p>📍 ${esc(c.where)}</p>`:"<p>Ask at the office</p>"}</div>`:""}
+ ${same?`<p class="hint">🔍 ${same} found item${same>1?"s":""} in this category. Check the Found list.</p>`:""}
+ ${i.done?"":`<button class="btn ${L?"red":"green"}" data-done="${i.id}">${L?"I got it back":"Handed to owner"}</button>`}
+ </article>`}
+
+function go(t){$$(".pane").forEach(p=>p.hidden=p.id!==t);$$("nav button").forEach(b=>b.setAttribute("aria-selected",b.dataset.t===t));if(t==="lost"||t==="found")resetForm(t);window.scrollTo({top:document.querySelector("nav").offsetTop-10,behavior:"smooth"})}
+function readPhoto(file,cb){const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const s=Math.min(1,480/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=im.width*s;c.height=im.height*s;c.getContext("2d").drawImage(im,0,0,c.width,c.height);cb(c.toDataURL("image/jpeg",.7))};im.src=r.result};r.readAsDataURL(file)}
+
+document.addEventListener("click",e=>{
+ const t=e.target.closest("[data-t],[data-go],[data-f],[data-done],[data-del]");if(!t)return;
+ const d=t.dataset;
+ if(d.t||d.go)go(d.t||d.go);
+ if(d.f){filt=d.f;$$(".chip").forEach(c=>c.setAttribute("aria-pressed",c===t));render()}
+ if(d.done){const i=items.find(x=>x.id==d.done);if(i){i.done=true;putItems();render();toast("🎉 Marked as returned. Great job!")}}
+ if(d.del){cust=cust.filter(c=>c.id!==d.del);putCust();fillCust();render();toast("Person removed")}
+});
+document.addEventListener("change",e=>{
+ const f=e.target;if(f.type!=="file"||!f.files[0])return;
+ const form=f.closest("form"),t=form.id.slice(2);
+ readPhoto(f.files[0],u=>{photos[t]=u;const im=form.querySelector(".photo img");im.src=u;im.hidden=false})
+});
+document.addEventListener("submit",e=>{
+ e.preventDefault();const f=e.target,v=Object.fromEntries(new FormData(f));
+ if(f.id==="f-cust"){cust.push({id:"c"+Date.now(),name:v.name.trim(),role:v.role,where:v.where.trim()});putCust();f.reset();fillCust();render();toast("✅ Person added");return}
+ const t=f.id.slice(2);
+ items.push({id:Date.now(),type:t,name:v.name.trim(),cat:v.cat,place:v.place.trim(),desc:v.desc.trim(),who:v.who.trim(),contact:v.contact.trim(),date:v.date,time:v.time,cust:v.cust||"",photo:photos[t]||""});
+ putItems();render();filt="all";$$(".chip").forEach(c=>c.setAttribute("aria-pressed",c.dataset.f==="all"));
+ toast(t==="lost"?"✅ Posted. We hope it turns up soon!":"✅ Posted. Thanks for being honest!");go("browse")
+});
+$("#q").addEventListener("input",e=>{q=e.target.value;render()});
+$("#theme").addEventListener("click",()=>{const r=document.documentElement,dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;r.dataset.theme=dark?"light":"dark"});
+fillCust();render();resetForm("lost");resetForm("found");
+</script>
+</body>
+</html>
